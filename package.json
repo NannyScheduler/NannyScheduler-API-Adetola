@@ -1,0 +1,45 @@
+{
+  "name": "nany-scheduler",
+  "version": "1.0.0",
+  "description": "An app that connects parents with nannies",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production nodemon ./server.js --exec babel-node"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NannyScheduler/NannyScheduler-API-Adetola.git"
+  },
+  "author": "Adetola",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NannyScheduler/NannyScheduler-API-Adetola/issues"
+  },
+  "homepage": "https://github.com/NannyScheduler/NannyScheduler-API-Adetola#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "cross-env": "^6.0.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.24.0",
+    "pg": "^7.12.1",
+    "pg-pool": "^2.0.7"
+  },
+  "devDependencies": {
+    "@babel/node": "^7.6.2",
+    "@babel/core": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "@babel/register": "^7.6.2",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.6",
+    "babel-polyfill": "^6.26.0",
+    "babel-register": "^6.26.0",
+    "@babel/cli": "^7.6.2",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-plugin-import": "^2.18.2",
+    "nodemon": "^1.19.4"
+  }
+}
