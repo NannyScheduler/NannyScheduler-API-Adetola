@@ -40,6 +40,37 @@ class Nannies {
       });
     }
   }
+
+  static async searchNannies(req, res) {
+    const { location } = req.body;
+
+    try {
+      const nanyQuerry = "SELECT * from nannies";
+      const { rows } = await Db.query(nanyQuerry);
+
+      const foundNannies = rows.filter(nanny =>
+        nanny.address.includes(location)
+      );
+      console.log(foundNannies);
+
+      if (foundNannies.length === 0) {
+        return res.status(404).json({
+          status: 404,
+          message: "no nannies found in this location"
+        });
+      }
+
+      return res.status(200).json({
+        status: 200,
+        data: foundNannies
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: 400,
+        error: "Something went wrong, try again"
+      });
+    }
+  }
 }
 
 export default Nannies;
