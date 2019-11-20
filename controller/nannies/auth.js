@@ -1,6 +1,7 @@
 import Db from "../../Db/db";
 import bcrypt from "bcryptjs";
 import Auth from "../../middlewares/auth";
+import validation from "../../validation/validate";
 
 const { genSaltSync, hashSync, compareSync } = bcrypt;
 
@@ -18,6 +19,13 @@ export default class nannyController {
       email,
       password
     } = req.body;
+
+    const { error } = validation.validateNanny(req.body);
+    if (error)
+      return res.status(422).json({
+        status: 422,
+        message: error.details[0].message
+      });
     const salt = genSaltSync(10);
     const hash = hashSync(password, salt);
 
@@ -72,47 +80,53 @@ export default class nannyController {
     }
   }
 
-  //   static async parentLogin(req, res) {
-  //     const { email, password } = req.body;
-  //     const queryString = "SELECT * FROM parents WHERE email = $1";
+  static async nannyLogin(req, res) {
+    const { email, password } = req.body;
+    const { error } = validation.validateParent(req.body);
+    if (error)
+      return res.status(422).json({
+        status: 422,
+        message: error.details[0].message
+      });
+    const queryString = "SELECT * FROM nannies WHERE email = $1";
 
-  //     try {
-  //       const { rows } = await Db.query(queryString, [email]);
+    try {
+      const { rows } = await Db.query(queryString, [email]);
 
-  //       if (!rows[0]) {
-  //         return res.status(404).json({
-  //           status: 404,
-  //           error: "user not found"
-  //         });
-  //       }
+      if (!rows[0]) {
+        return res.status(404).json({
+          status: 404,
+          error: "user not found"
+        });
+      }
 
-  //       if (!compareSync(password, rows[0].password)) {
-  //         return res.status(401).json({
-  //           status: 401,
-  //           error: "invalid email/password"
-  //         });
-  //       }
+      if (!compareSync(password, rows[0].password)) {
+        return res.status(401).json({
+          status: 401,
+          error: "invalid email/password"
+        });
+      }
 
-  //       const token = Auth.generateToken(rows[0].email, rows[0].id);
+      const token = Auth.generateToken(rows[0].email, rows[0].id);
 
-  //       return res.status(200).json({
-  //         status: 200,
-  //         data: [
-  //           {
-  //             message: "Logged in successfully",
-  //             user: {
-  //               lastname: rows[0].lname,
-  //               email: rows[0].email
-  //             },
-  //             token
-  //           }
-  //         ]
-  //       });
-  //     } catch (error) {
-  //       return res.status(400).json({
-  //         status: 400,
-  //         errors: "Something went wrong, try again"
-  //       });
-  //     }
-  //   }
+      return res.status(200).json({
+        status: 200,
+        data: [
+          {
+            message: "Logged in successfully",
+            user: {
+              lastname: rows[0].lname,
+              email: rows[0].email
+            },
+            token
+          }
+        ]
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: 400,
+        errors: "Something went wrong, try again"
+      });
+    }
+  }
 }
