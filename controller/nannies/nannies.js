@@ -1,5 +1,4 @@
 import Db from "../../Db/db";
-import Auth from "../../middlewares/auth";
 
 class Nannies {
   static async getAllNannies(req, res) {
@@ -51,7 +50,6 @@ class Nannies {
       const foundNannies = rows.filter(nanny =>
         nanny.address.includes(location)
       );
-      console.log(foundNannies);
 
       if (foundNannies.length === 0) {
         return res.status(404).json({

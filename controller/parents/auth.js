@@ -63,7 +63,7 @@ export default class parentController {
 
   static async parentLogin(req, res) {
     const { email, password } = req.body;
-    const { error } = validation.validateParent(req.body);
+    const { error } = validation.validateLogin(req.body);
     if (error)
       return res.status(422).json({
         status: 422,
