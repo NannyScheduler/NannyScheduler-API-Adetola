@@ -1,12 +1,20 @@
 import Db from "../../Db/db";
 import bcrypt from "bcryptjs";
 import Auth from "../../middlewares/auth";
+import validation from "../../validation/validate";
 
 const { genSaltSync, hashSync, compareSync } = bcrypt;
 
 export default class parentController {
   static async createParent(req, res) {
     const { body } = req;
+
+    const { error } = validation.validateParent(body);
+    if (error)
+      return res.status(422).json({
+        status: 422,
+        message: error.details[0].message
+      });
     const salt = genSaltSync(10);
     const hash = hashSync(body.password, salt);
 
@@ -55,6 +63,12 @@ export default class parentController {
 
   static async parentLogin(req, res) {
     const { email, password } = req.body;
+    const { error } = validation.validateParent(req.body);
+    if (error)
+      return res.status(422).json({
+        status: 422,
+        message: error.details[0].message
+      });
     const queryString = "SELECT * FROM parents WHERE email = $1";
 
     try {
