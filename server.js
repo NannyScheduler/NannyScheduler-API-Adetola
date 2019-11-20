@@ -2,6 +2,8 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 
+import parentRoute from "./routes/parents/parent";
+
 const app = express();
 
 // body-parser Middleware
@@ -21,6 +23,8 @@ app.get("/", (req, res) =>
     ]
   })
 );
+
+app.use("/api/parent", parentRoute);
 
 app.all("*", (req, res) =>
   res.status(404).json({
