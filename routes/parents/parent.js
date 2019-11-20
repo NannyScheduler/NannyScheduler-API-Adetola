@@ -1,5 +1,5 @@
 import express from "express";
-import parentController from "../../controller/auth";
+import parentController from "../../controller/parents/auth";
 
 const { createParent, parentLogin } = parentController;
 

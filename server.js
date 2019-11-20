@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 
 import parentRoute from "./routes/parents/parent";
+import nannyRoute from "./routes/nanies/nanies";
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.get("/", (req, res) =>
 );
 
 app.use("/api/parent", parentRoute);
+app.use("/api/nannies", nannyRoute);
 
 app.all("*", (req, res) =>
   res.status(404).json({

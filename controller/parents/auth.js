@@ -1,6 +1,6 @@
-import Db from "../Db/db";
+import Db from "../../Db/db";
 import bcrypt from "bcryptjs";
-import Auth from "../middlewares/auth";
+import Auth from "../../middlewares/auth";
 
 const { genSaltSync, hashSync, compareSync } = bcrypt;
 
