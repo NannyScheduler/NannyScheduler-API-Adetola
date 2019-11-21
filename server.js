@@ -34,9 +34,18 @@ app.all("*", (req, res) =>
     error: "Route does not exist"
   })
 );
+app.use((err, req, res, next) => {
+  if (err) {
+    return res.status(500).json({
+      status: 500,
+      error: "internal server error"
+    });
+  }
+  return next();
+});
 
 // Define application port number
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4000;
 
 // Start server
 app.listen(port);

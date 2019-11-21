@@ -15,6 +15,6 @@ router.post("/signup", trimmer, createNanny);
 router.post("/login", trimmer, nannyLogin);
 router.get("/", verifyParentToken, getAllNannies);
 router.get("/nanny", verifyParentToken, searchNannies);
-router.post("/approve/:id", verifyNannyToken, acceptOrRejectRequest);
+router.put("/approve/:id", verifyNannyToken, acceptOrRejectRequest);
 
 export default router;
