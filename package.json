@@ -4,7 +4,9 @@
   "description": "An app that connects parents with nannies",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production nodemon ./server.js --exec babel-node"
+    "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --require @babel/register --require babel-polyfill ./test/ --recursive --timeout 20000 --exit",
+    "start": "cross-env NODE_ENV=production nodemon ./server.js --exec babel-node",
+    "coverage": "nyc report --reporter=text-lcov"
   },
   "repository": {
     "type": "git",
@@ -27,20 +29,26 @@
     "moment": "^2.24.0",
     "pg": "^7.12.1",
     "pg-pool": "^2.0.7",
-    "joi": "^14.3.1"
+    "joi": "^14.3.1",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "faker": "^4.1.0"
   },
   "devDependencies": {
-    "@babel/node": "^7.6.2",
+    "@babel/cli": "^7.6.2",
     "@babel/core": "^7.6.2",
+    "@babel/node": "^7.6.2",
     "@babel/preset-env": "^7.6.2",
     "@babel/register": "^7.6.2",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.6",
     "babel-polyfill": "^6.26.0",
     "babel-register": "^6.26.0",
-    "@babel/cli": "^7.6.2",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.18.2",
-    "nodemon": "^1.19.4"
+    "istanbul": "^0.4.5",
+    "mocha": "^6.2.1",
+    "nodemon": "^1.19.4",
+    "nyc": "^14.1.1"
   }
 }

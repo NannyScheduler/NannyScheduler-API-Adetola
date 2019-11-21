@@ -43,6 +43,25 @@ class Request {
       });
     }
   }
+
+  static async sendMessage(req, res) {
+    const { nanny_email } = req.params;
+    const { message } = req.body;
+    const { email } = req.user;
+    const values = [email, message, nanny_email];
+    console.log(nanny_email);
+    try {
+      const queryString =
+        "INSERT INTO messages(sender_email,message,receiver_email) VALUES($1,$2,$3) returning *";
+      const { rows } = await Db.query(queryString, values);
+      return res.status(201).json({
+        status: 201,
+        data: {
+          message: rows[0]
+        }
+      });
+    } catch (error) {}
+  }
 }
 
 export default Request;
