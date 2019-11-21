@@ -21,11 +21,13 @@ class Request {
         parentInfo.phone,
         rows[0].fname + " " + rows[0].lname,
         rows[0].phone,
-        new Date()
+        new Date(),
+        "pending",
+        rows[0].email
       ];
 
       const queryString =
-        "INSERT INTO requests(parent_name,time_needed,number_of_kids,ages_of_wards,notes,parent_phone,nanny_name,nanny_phone,created_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9) returning *";
+        "INSERT INTO requests(parent_name,time_needed,number_of_kids,ages_of_wards,notes,parent_phone,nanny_name,nanny_phone,created_at,status,nanny_email) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) returning *";
 
       const request = await Db.query(queryString, values);
       return res.status(201).json({

@@ -69,6 +69,53 @@ class Nannies {
       });
     }
   }
+
+  static async acceptOrRejectRequest(req, res) {
+    const { id } = req.params;
+    const { email } = req.user;
+    const { status } = req.body;
+    const values = [status, id];
+
+    try {
+      const queryString = "SELECT * FROM requests WHERE id = $1";
+      const { rows } = await Db.query(queryString, [id]);
+
+      if (!rows[0]) {
+        return res.status(404).json({
+          status: 404,
+          error: "Booking not found"
+        });
+      }
+
+      if (rows[0].nanny_email !== email) {
+        return res.status(403).json({
+          status: 403,
+          error: "You cannot perform an operation on this booking"
+        });
+      }
+
+      if (rows[0].status !== "pending") {
+        return res.status(409).json({
+          status: 409,
+          error: "This booking has already been closed"
+        });
+      }
+
+      const updateQuery =
+        "UPDATE requests SET status = $1 WHERE id = $2 returning *";
+      const update = await Db.query(updateQuery, values);
+
+      return res.status(200).json({
+        status: 200,
+        data: update.rows[0]
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: 400,
+        error: "Something went wrong, try again"
+      });
+    }
+  }
 }
 
 export default Nannies;

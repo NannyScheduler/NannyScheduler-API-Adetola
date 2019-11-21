@@ -82,7 +82,7 @@ export default class nannyController {
 
   static async nannyLogin(req, res) {
     const { email, password } = req.body;
-    const { error } = validation.validateParent(req.body);
+    const { error } = validation.validateLogin(req.body);
     if (error)
       return res.status(422).json({
         status: 422,
@@ -92,6 +92,7 @@ export default class nannyController {
 
     try {
       const { rows } = await Db.query(queryString, [email]);
+      console.log(rows[0]);
 
       if (!rows[0]) {
         return res.status(404).json({
